@@ -1,24 +1,32 @@
-#import <Cordova/CDV.h>
-#import <NetworkExtension/NetworkExtension.h>
+#import "VPNDetection.h"
+#import <ifaddrs.h>
+#import <net/if.h>
 
-@interface VpnDetection : CDVPlugin
-- (void)isVpnEnabled:(CDVInvokedUrlCommand*)command;
-@end
+@implementation VPNDetection
 
-@implementation VpnDetection
-
-- (void)isVpnEnabled:(CDVInvokedUrlCommand*)command {
+- (void)isVPNConnected:(CDVInvokedUrlCommand*)command {
+    struct ifaddrs *interfaces = NULL;
+    struct ifaddrs *temp_addr = NULL;
     BOOL isVPN = NO;
-    NSDictionary *settings = (__bridge NSDictionary *)(CFNetworkCopySystemProxySettings());
-    NSArray *keys = [settings[@"__SCOPED__"] allKeys];
-    for (NSString *key in keys) {
-        if ([key containsString:@"tap"] || [key containsString:@"tun"] || [key containsString:@"ppp"] || [key containsString:@"ipsec"] || [key containsString:@"ipsec0"] || [key containsString:@"utun"]) {
-            isVPN = YES;
-            break;
+
+    if (getifaddrs(&interfaces) == 0) {
+        temp_addr = interfaces;
+        while (temp_addr != NULL) {
+            NSString *name = [NSString stringWithUTF8String:temp_addr->ifa_name];
+            if ([name containsString:@"utun"] ||
+                [name containsString:@"ppp"] ||
+                [name containsString:@"ipsec"] ||
+                [name containsString:@"tap"] ||
+                [name containsString:@"tun"]) {
+                isVPN = YES;
+                break;
+            }
+            temp_addr = temp_addr->ifa_next;
         }
     }
+    freeifaddrs(interfaces);
 
-    CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsInt:(isVPN ? 1 : 0)];
+    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:isVPN];
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 

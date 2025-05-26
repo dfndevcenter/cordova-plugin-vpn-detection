@@ -1,15 +1,21 @@
-<plugin id="cordova-plugin-vpn-detection" version="1.0.0" xmlns="http://apache.org/cordova/ns/plugins/1.0"
-        xmlns:android="http://schemas.android.com/apk/res/android">
-    <name>VpnDetection</name>
-    <js-module src="www/VpnDetection.js" name="VpnDetection">
-        <clobbers target="VpnDetection" />
-    </js-module>
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin id="cordova-plugin-vpn-detection" version="1.0.0" xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+  <name>Detect VPN</name>
+  <description>Cordova plugin to detect active VPN connections on iOS</description>
+  <license>MIT</license>
+  <keywords>cordova, vpn, ios, network</keywords>
+  <platform name="ios">
+    <config-file target="config.xml" parent="/*">
+      <feature name="VPNDetection">
+        <param name="ios-package" value="VPNDetection"/>
+      </feature>
+    </config-file>
 
-    <platform name="android">
-        <source-file src="src/android/VpnDetection.java" target-dir="src/cordova/plugin/vpndetection" />
-    </platform>
-
-    <platform name="ios">
-        <source-file src="src/ios/VpnDetection.m" />
-    </platform>
+    <source-file src="src/ios/VPNDetection.m" />
+    <header-file src="src/ios/VPNDetection.h" />
+  </platform>
+  <js-module src="www/VpnDetection.js" name="VPNDetection">
+    <clobbers target="cordova.plugins.VpnDetection" />
+  </js-module>
 </plugin>
+

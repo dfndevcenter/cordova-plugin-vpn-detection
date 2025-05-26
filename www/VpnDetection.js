@@ -1,5 +1,5 @@
 var exec = require('cordova/exec');
 
-exports.isVpnEnabled = function (success, error) {
-    exec(success, error, 'VpnDetection', 'isVpnEnabled', []);
+exports.isVPNConnected = function (success, error) {
+    exec(success, error, 'VPNDetection', 'isVPNConnected', []);
 };
