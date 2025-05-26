@@ -1,0 +1,15 @@
+<plugin id="cordova-plugin-vpn-detection" version="1.0.0" xmlns="http://apache.org/cordova/ns/plugins/1.0"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+    <name>VpnDetection</name>
+    <js-module src="www/VpnDetection.js" name="VpnDetection">
+        <clobbers target="VpnDetection" />
+    </js-module>
+
+    <platform name="android">
+        <source-file src="src/android/VpnDetection.java" target-dir="src/cordova/plugin/vpndetection" />
+    </platform>
+
+    <platform name="ios">
+        <source-file src="src/ios/VpnDetection.m" />
+    </platform>
+</plugin>
