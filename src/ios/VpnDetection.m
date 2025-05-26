@@ -1,30 +1,26 @@
 #import "VPNDetection.h"
-#import <ifaddrs.h>
-#import <net/if.h>
+#import <SystemConfiguration/SystemConfiguration.h>
 
 @implementation VPNDetection
 
 - (void)isVPNConnected:(CDVInvokedUrlCommand*)command {
-    struct ifaddrs *interfaces = NULL;
-    struct ifaddrs *temp_addr = NULL;
-    BOOL isVPN = NO;
+    CFDictionaryRef dict = CFNetworkCopySystemProxySettings();
+    NSDictionary* settings = (__bridge NSDictionary*)dict;
+    NSDictionary* scoped = settings[@"__SCOPED__"];
 
-    if (getifaddrs(&interfaces) == 0) {
-        temp_addr = interfaces;
-        while (temp_addr != NULL) {
-            NSString *name = [NSString stringWithUTF8String:temp_addr->ifa_name];
-            if ([name containsString:@"utun"] ||
-                [name containsString:@"ppp"] ||
-                [name containsString:@"ipsec"] ||
-                [name containsString:@"tap"] ||
-                [name containsString:@"tun"]) {
-                isVPN = YES;
-                break;
-            }
-            temp_addr = temp_addr->ifa_next;
+    BOOL isVPN = NO;
+    for (NSString* key in scoped.allKeys) {
+        if ([key containsString:@"tap"] ||
+            [key containsString:@"tun"] ||
+            [key containsString:@"ppp"] ||
+            [key containsString:@"ipsec"] ||
+            [key containsString:@"utun"]) {
+            isVPN = YES;
+            break;
         }
     }
-    freeifaddrs(interfaces);
+
+    if (dict != NULL) CFRelease(dict);
 
     CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:isVPN];
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
