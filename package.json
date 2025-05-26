@@ -1,0 +1,19 @@
+{
+  "name": "cordova-plugin-vpn-detection",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/seuokshadowfax/cordova-plugin-vpn-detection.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/seuokshadowfax/cordova-plugin-vpn-detection/issues"
+  },
+  "homepage": "https://github.com/seuokshadowfax/cordova-plugin-vpn-detection#readme"
+}
