@@ -1,5 +1,7 @@
-var exec = require('cordova/exec');
+/* global cordova, module */
 
-exports.isVPNConnected = function (success, error) {
-    exec(success, error, 'VPNDetection', 'isVPNConnected', []);
+module.exports = {
+    isVPNConnected: function(successCallback, errorCallback) {
+        cordova.exec(successCallback, errorCallback, "VPNDetection", "isVPNConnected", []);
+    }
 };

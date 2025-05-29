@@ -1,4 +1,4 @@
-package cordova.plugin.vpndetection;
+package cordova.android.vpndetection;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
