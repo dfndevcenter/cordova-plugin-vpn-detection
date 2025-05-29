@@ -13,15 +13,15 @@ public class VpnDetection extends CordovaPlugin {
 
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
-        if ("isVpnEnabled".equals(action)) {
-            boolean isVpn = isVpnActive();
+        if ("isVPNConnected".equals(action)) {
+            boolean isVpn = isVPNConnected();
             callbackContext.success(isVpn ? 1 : 0);
             return true;
         }
         return false;
     }
 
-    private boolean isVpnActive() {
+    private boolean isVPNConnected() {
         ConnectivityManager cm = (ConnectivityManager) cordova.getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
             Network activeNetwork = cm.getActiveNetwork();
