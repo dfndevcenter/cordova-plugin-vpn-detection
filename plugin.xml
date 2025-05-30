@@ -14,14 +14,6 @@
     <source-file src="src/ios/VPNDetection.m" />
     <header-file src="src/ios/VPNDetection.h" />
   </platform>
-  <platform name="android">
-    <config-file target="config.xml" parent="/*">
-        <feature name="VPNDetection">
-            <param name="android-package" value="com.android.vpndetection.VPNDetection" />
-        </feature>
-    </config-file>
-    <source-file src="src/android/VPNDetection.java" target-dir="src/com/android/vpndetection" />
-  </platform>
   <js-module src="www/VpnDetection.js" name="VPNDetection">
     <clobbers target="cordova.plugins.VpnDetection" />
   </js-module>
